@@ -25,5 +25,15 @@ namespace WebApi.Models
 
         [Column("quantity")]
         public int Quantity { get; set; }
+
+        [Column("brandid")]
+        public long BrandId { get; set; }
+
+        [Column("categoryid")]
+        public long CategoryId { get; set; }
+
+        public Brand? Brand { get; set; }
+
+        public Category? Category { get; set; }
     }
 }

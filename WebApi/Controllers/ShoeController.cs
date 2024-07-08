@@ -16,12 +16,12 @@ namespace WebApi.Controllers
         [HttpGet("GetShoes")]
         public ActionResult<IEnumerable<Shoe>> GetShoes()
         {
-            var shoes = _context.Shoes.ToList();
+            var shoes = _context.Shoes.Include(s => s.Brand).Include(s => s.Category).ToList();
             return Ok(shoes);
         }
 
         [HttpPost("AddShoe")]
-        public IActionResult AddShoe(string name, int price, int size, string color, int quantity)
+        public IActionResult AddShoe(string name, int price, int size, string color, int quantity, long brandId, long categoryId)
         {
             Shoe shoe = new Shoe();
             shoe.Name = name;
@@ -29,6 +29,8 @@ namespace WebApi.Controllers
             shoe.Size = size;
             shoe.Color = color;
             shoe.Quantity = quantity;
+            shoe.BrandId = brandId;
+            shoe.CategoryId = categoryId;
 
             var existingShoe = _context.Shoes.FirstOrDefault(s => s.Name == shoe.Name 
                                                             && s.Price == shoe.Price
@@ -60,11 +62,12 @@ namespace WebApi.Controllers
             _context.Shoes.Remove(shoe);
             _context.SaveChanges();
 
-            return Ok("Обувь успешно удалена");
+            return Ok($"Обувь c id: {id} успешно удалена");
         }
 
         [HttpPut("UpdateShoe")]
-        public IActionResult UpdateShoe(long shoeId, string name = null, int? price = null, int? size = null, string color = null, int? quantity = null)
+        public IActionResult UpdateShoe(long shoeId, string?     name = null, int? price = null, int? size = null, string color = null, int? quantity = null, 
+            long? brandId = null, long? categoryId = null)
         {
             var findShoe = _context.Shoes.Find(shoeId);
 
@@ -73,7 +76,6 @@ namespace WebApi.Controllers
                 return BadRequest("Обувь не найдена");
             }
 
-            // Обновляем только переданные поля
             if (name != null)
             {
                 findShoe.Name = name;
@@ -94,12 +96,19 @@ namespace WebApi.Controllers
             {
                 findShoe.Quantity = quantity.Value;
             }
+            if (brandId != null)
+            {
+                findShoe.BrandId = brandId.Value;
+            }
+            if (categoryId != null)
+            {
+                findShoe.CategoryId = categoryId.Value;
+            }
 
             _context.Shoes.Update(findShoe);
             _context.SaveChanges();
 
-            return Ok("Обувь успешно обновлена");
+            return Ok($"Обувь с id: {shoeId} успешно обновлена");
         }
-
     }
 }

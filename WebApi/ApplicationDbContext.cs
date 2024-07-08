@@ -6,12 +6,30 @@ namespace WebApi
     public class ApplicationDbContext : DbContext
     {
         public DbSet<Shoe> Shoes { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Shoe>()
+                 .HasOne(s => s.Brand)
+                 .WithMany(b => b.Shoes)
+                 .HasForeignKey(s => s.BrandId);
+
+            modelBuilder.Entity<Shoe>()
+                .HasOne(s => s.Category)
+                .WithMany(c => c.Shoes)
+                .HasForeignKey(s => s.CategoryId);
+
+            modelBuilder.Entity<Brand>()
+                .HasIndex(b => b.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Category>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
         }
     }
 }
