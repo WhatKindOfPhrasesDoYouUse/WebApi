@@ -13,6 +13,7 @@ namespace WebApi
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<PickupPoint> PickupPoints { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -52,6 +53,24 @@ namespace WebApi
 
             modelBuilder.Entity<Client>()
                 .HasIndex(b => b.Username)
+                .IsUnique();
+
+            modelBuilder.Entity<Order>()
+                 .HasOne(s => s.Client)
+                 .WithMany(b => b.Orders)
+                 .HasForeignKey(s => s.ClientId);
+
+            modelBuilder.Entity<Client>()
+                .HasIndex(b => b.Username)
+                .IsUnique();
+
+            modelBuilder.Entity<Order>()
+                 .HasOne(s => s.PickupPoint)
+                 .WithMany(b => b.Orders)
+                 .HasForeignKey(s => s.PickupPointId);
+
+            modelBuilder.Entity<PickupPoint>()
+                .HasIndex(b => b.City)
                 .IsUnique();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WebApi.Models
 {
@@ -16,5 +17,8 @@ namespace WebApi.Models
 
         [Column("address")]
         public string Address { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Order> Orders { get; set; }
     }
 }
