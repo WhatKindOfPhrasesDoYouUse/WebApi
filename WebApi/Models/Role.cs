@@ -14,5 +14,8 @@ namespace WebApi.Models
 
         [Column("name")]
         public string Name { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Client> Clients { get; set; }
     }
 }

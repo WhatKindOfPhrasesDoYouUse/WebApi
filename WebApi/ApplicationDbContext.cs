@@ -9,6 +9,7 @@ namespace WebApi
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<Client> Clients { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -30,6 +31,15 @@ namespace WebApi
 
             modelBuilder.Entity<Category>()
                 .HasIndex(c => c.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Client>()
+                .HasOne(s => s.Role)
+                .WithMany(s => s.Clients)
+                .HasForeignKey(s => s.RoleId);
+
+            modelBuilder.Entity<Role>()
+                .HasIndex(b => b.Name)
                 .IsUnique();
         }
     }

@@ -34,7 +34,7 @@ namespace WebApi.Controllers
             return Ok("Роль успешно добавлена");
         }
 
-        [HttpDelete("DeleteRole/{id}")]
+        [HttpDelete("DeleteRole")]
         public IActionResult DeleteRole(long id) 
         {
             var role = _context.Roles.Find(id);

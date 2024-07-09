@@ -77,7 +77,7 @@ namespace WebApi.Controllers
             }
 
             if (name != null)
-            {   
+            {       
                 findShoe.Name = name;
             }
             if (price != null)
