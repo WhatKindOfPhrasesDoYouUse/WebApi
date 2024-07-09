@@ -10,6 +10,7 @@ namespace WebApi
         public DbSet<Category> Categories { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
@@ -40,6 +41,15 @@ namespace WebApi
 
             modelBuilder.Entity<Role>()
                 .HasIndex(b => b.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Cart>()
+                .HasOne(s => s.Client)
+                .WithMany(s => s.Carts)
+                .HasForeignKey(s => s.ClientId);
+
+            modelBuilder.Entity<Client>()
+                .HasIndex(b => b.Username)
                 .IsUnique();
         }
     }

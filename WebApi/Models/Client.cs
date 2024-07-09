@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WebApi.Models
 {
@@ -33,6 +34,9 @@ namespace WebApi.Models
         public long RoleId { get; set; }
 
         public Role? Role { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Cart> Carts { get; set; }
 
     }
 }
