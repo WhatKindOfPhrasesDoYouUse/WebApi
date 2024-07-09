@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         [HttpPost("AddCategory")]
         public IActionResult AddCategory(string name)
         {
-            Category category = new Category();
+            Category category = new Category()  ;
             category.Name = name;
 
             var existingCategory = _context.Categories.FirstOrDefault(b => b.Name == name);
