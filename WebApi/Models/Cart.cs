@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WebApi.Models
 {
@@ -15,5 +16,8 @@ namespace WebApi.Models
         public long ClientId { get; set; }
 
         public Client? Client { get; set; }
+
+        [JsonIgnore]
+        public ICollection<CartItem> CartItems { get; set; }
     }
 }

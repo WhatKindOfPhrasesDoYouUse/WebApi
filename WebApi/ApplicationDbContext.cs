@@ -11,6 +11,7 @@ namespace WebApi
         public DbSet<Role> Roles { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

@@ -66,7 +66,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("UpdateShoe")]
-        public IActionResult UpdateShoe(long shoeId, string? name = null, int? price = null, int? size = null, string color = null, int? quantity = null, 
+        public IActionResult UpdateShoe(long shoeId, string? name = null, int? price = null, int? size = null, string color =   null, int? quantity = null, 
             long? brandId = null, long? categoryId = null)
         {
             var findShoe = _context.Shoes.Find(shoeId);
