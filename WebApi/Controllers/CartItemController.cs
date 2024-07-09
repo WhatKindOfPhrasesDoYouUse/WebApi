@@ -70,18 +70,15 @@ namespace WebApi.Controllers
                 int newQuantity = quantity.Value;
                 int quantityDifference = newQuantity - oldQuantity;
 
-                // Проверяем, достаточно ли обуви на складе, если количество увеличивается
                 if (quantityDifference > 0 && shoe.Quantity < quantityDifference)
                 {
                     return BadRequest("Обуви недостаточно на складе для увеличения количества");
                 }
 
-                // Обновляем количество обуви на складе
                 shoe.Quantity -= quantityDifference;
                 findCartItem.Quantity = newQuantity;
             }
 
-            // Проверка изменения ShoeId и корректировка количества обуви на складе
             if (shoeId != null && findCartItem.ShoeId != shoeId.Value)
             {
                 var oldShoe = findCartItem.Shoe;
@@ -89,16 +86,13 @@ namespace WebApi.Controllers
 
                 if (newShoe == null) return BadRequest("Новая обувь не найдена");
 
-                // Возвращаем количество старой обуви на склад
                 oldShoe.Quantity += findCartItem.Quantity;
 
-                // Проверяем наличие новой обуви на складе
                 if (newShoe.Quantity < findCartItem.Quantity)
                 {
                     return BadRequest("Новой обуви недостаточно на складе");
                 }
 
-                // Уменьшаем количество новой обуви на складе
                 newShoe.Quantity -= findCartItem.Quantity;
                 findCartItem.ShoeId = shoeId.Value;
                 findCartItem.Shoe = newShoe;
@@ -111,8 +105,5 @@ namespace WebApi.Controllers
 
             return Ok($"Объект корзины с id: {cartItemId} успешно обновлен");
         }
-
-
-
     }
 }
