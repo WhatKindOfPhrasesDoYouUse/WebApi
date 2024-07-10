@@ -26,12 +26,12 @@ namespace WebApi.Controllers
 
             var existingCategory = _context.Categories.FirstOrDefault(b => b.Name == name);
 
-            if (existingCategory != null) return BadRequest("Такой бренд уже существует");
+            if (existingCategory != null) return BadRequest($"Категория с именем {name} уже существует");
 
             _context.Categories.Add(category);
             _context.SaveChanges();
 
-            return Ok("Категория успешно добавлена");
+            return Ok($"Категория успешно создана, ее id: {category.Id}");
         }
 
         [HttpDelete("DeleteCategory")]
@@ -39,15 +39,12 @@ namespace WebApi.Controllers
         {
             var category = _context.Categories.Find(id);
 
-            if (category == null)
-            {
-                return BadRequest("Нет категории с таким id");
-            }
+            if (category == null) return BadRequest($"Нет категории c id: {id}");
 
             _context.Categories.Remove(category);
             _context.SaveChanges();
 
-            return Ok($"Категория c id: {id} успешно создан");
+            return Ok($"Категория c id: {id} успешно удалена");
         }
 
         [HttpPut("UpdateCategory")]
@@ -55,20 +52,14 @@ namespace WebApi.Controllers
         {
             var findCategory = _context.Categories.Find(categoryId);
 
-            if (findCategory == null)
-            {
-                return NotFound("Категория не найден");
-            }
+            if (findCategory == null) return NotFound($"Категория c id: {categoryId} не найдена");
 
-            if (name != null)
-            {
-                findCategory.Name = name;
-            }
-
+            if (name != null) findCategory.Name = name;
+            
             _context.Categories.Update(findCategory);
             _context.SaveChanges();
 
-            return Ok($"Категория с id: {categoryId} обновлена");
+            return Ok($"Категория с id: {categoryId} успешно обновлена");
         }
 
     }

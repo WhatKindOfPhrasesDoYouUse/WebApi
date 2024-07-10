@@ -38,15 +38,12 @@ namespace WebApi.Controllers
                                                             && s.Color == shoe.Color
                                                             && s.Quantity == shoe.Quantity);
 
-            if (existingShoe != null) 
-            {
-                return BadRequest("Такая обувь уже существует");
-            }
-
+            if (existingShoe != null) return BadRequest($"Обувь с иминем {name} уже существует");
+            
             _context.Shoes.Add(shoe);
             _context.SaveChanges();
 
-            return Ok("Обувь успешно добавлена");
+            return Ok($"Обувь успешно создана, ее id: {shoe.Id}");
         }
 
         [HttpDelete("DeleteShoe")]
@@ -54,11 +51,8 @@ namespace WebApi.Controllers
         {
             var shoe = _context.Shoes.Find(id);
 
-            if (shoe == null)
-            {
-                return BadRequest("Нет обуви с таким id");
-            }
-
+            if (shoe == null) return BadRequest($"Нет обуви с id: {id}");
+            
             _context.Shoes.Remove(shoe);
             _context.SaveChanges();
 
@@ -71,39 +65,15 @@ namespace WebApi.Controllers
         {
             var findShoe = _context.Shoes.Find(shoeId);
 
-            if (findShoe == null)
-            {
-                return BadRequest("Обувь не найдена");
-            }
-
-            if (name != null)
-            {       
-                findShoe.Name = name;
-            }
-            if (price != null)
-            {
-                findShoe.Price = price.Value;
-            }
-            if (size != null)
-            {
-                findShoe.Size = size.Value;
-            }
-            if (color != null)
-            {
-                findShoe.Color = color;
-            }
-            if (quantity != null)
-            {
-                findShoe.Quantity = quantity.Value;
-            }
-            if (brandId != null)
-            {
-                findShoe.BrandId = brandId.Value;
-            }
-            if (categoryId != null)
-            {
-                findShoe.CategoryId = categoryId.Value;
-            }
+            if (findShoe == null) return BadRequest($"Обувь c id: {shoeId} не найдена");
+            
+            if (name != null) findShoe.Name = name;
+            if (price != null) findShoe.Price = price.Value;
+            if (size != null) findShoe.Size = size.Value;
+            if (color != null) findShoe.Color = color;
+            if (quantity != null) findShoe.Quantity = quantity.Value;
+            if (brandId != null) findShoe.BrandId = brandId.Value;
+            if (categoryId != null) findShoe.CategoryId = categoryId.Value;
 
             _context.Shoes.Update(findShoe);
             _context.SaveChanges();

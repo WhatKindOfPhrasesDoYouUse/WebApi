@@ -39,10 +39,7 @@ namespace WebApi.Controllers
         {
             var brand = _context.Brands.Find(id);
 
-            if (brand == null) 
-            {
-                return BadRequest($"Нет бренда c id: {id}");
-            }
+            if (brand == null) return BadRequest($"Нет бренда c id: {id}");
 
             _context.Brands.Remove(brand);
             _context.SaveChanges();
@@ -55,15 +52,9 @@ namespace WebApi.Controllers
         {
             var findBrand = _context.Brands.Find(brandId);
 
-            if (findBrand == null)
-            {
-                return NotFound("Бренд не найден");
-            }
+            if (findBrand == null) return NotFound($"Бренд с id: {brandId} не найден");
 
-            if (name != null)
-            {
-                findBrand.Name = name;
-            }
+            if (name != null) findBrand.Name = name;
 
             _context.Brands.Update(findBrand);
             _context.SaveChanges();
