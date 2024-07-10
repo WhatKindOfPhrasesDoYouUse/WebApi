@@ -14,6 +14,7 @@ namespace WebApi
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<PickupPoint> PickupPoints { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 

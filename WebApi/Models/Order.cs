@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WebApi.Models
 {
@@ -25,5 +26,8 @@ namespace WebApi.Models
 
         public Client? Client { get; set; }
         public PickupPoint? PickupPoint { get; set;}
+
+        [JsonIgnore]
+        public ICollection<OrderItem> OrderItems { get; set; }
     }
 }
