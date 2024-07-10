@@ -9,7 +9,7 @@ namespace WebApi.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public RoleController(ApplicationDbContext context) { _context = context; }
+        public RoleController(ApplicationDbContext context) => _context = context; 
 
         [HttpGet("GetRoles")]
         public ActionResult<IEnumerable<Role>> GetRoles()
@@ -26,12 +26,12 @@ namespace WebApi.Controllers
 
             var existingRole = _context.Roles.FirstOrDefault(b => b.Name == name);
 
-            if (existingRole != null) return BadRequest("Такая роль уже существует");
+            if (existingRole != null) return BadRequest($"Роль с иминем {name} уже существует");
 
             _context.Roles.Add(role);
             _context.SaveChanges();
 
-            return Ok("Роль успешно добавлена");
+            return Ok($"Роль успешно добавлена, ее id: {role.Id}");
         }
 
         [HttpDelete("DeleteRole")]
@@ -39,12 +39,12 @@ namespace WebApi.Controllers
         {
             var role = _context.Roles.Find(id);
 
-            if (role == null) return BadRequest("Нет роли с таким id");
+            if (role == null) return BadRequest($"Нет роли с id: {id}");
 
             _context.Roles.Remove(role);
             _context.SaveChanges();
 
-            return Ok($"Роль с id: {id} успешно создана");
+            return Ok($"Роль с id: {id} успешно удалена");
         }
 
         [HttpPut("UpdateRole")]
