@@ -26,12 +26,12 @@ namespace WebApi.Controllers
 
             var existingBrand = _context.Brands.FirstOrDefault(b => b.Name == name);
 
-            if (existingBrand != null) return BadRequest("Такой бренд уже существует");
+            if (existingBrand != null) return BadRequest($"Бренд с именем {name} уже существует");
 
             _context.Brands.Add(brand);
             _context.SaveChanges();
 
-            return Ok("Бренд успешно добавлен");
+            return Ok($"Бренд успешно добавлен, его id: {brand.Id}");
         }
 
         [HttpDelete("DeleteBrand")]
@@ -41,13 +41,13 @@ namespace WebApi.Controllers
 
             if (brand == null) 
             {
-                return BadRequest("Нет бренда с таким id");
+                return BadRequest($"Нет бренда c id: {id}");
             }
 
             _context.Brands.Remove(brand);
             _context.SaveChanges();
 
-            return Ok($"Бренд c id: {id} успешно создан");
+            return Ok($"Бренд c id: {id} успешно удален");
         }
 
         [HttpPut("UpdateBrand")]
@@ -68,7 +68,7 @@ namespace WebApi.Controllers
             _context.Brands.Update(findBrand);
             _context.SaveChanges();
 
-            return Ok($"Бренд с id: {brandId} обновлен ");
+            return Ok($"Бренд с id: {findBrand.Id} успешно обновлен");
         }
     }
 }
