@@ -37,7 +37,7 @@ namespace WebApi.Controllers
             _context.CartItems.Add(cartItem);
             _context.SaveChanges();
 
-            return Ok("Обувь успешно добавлена в корзину");
+            return Ok($"Обувь успешно добавлена в корзину, ее id: {shoeId} в количестве: {quantity}");
         }
 
         [HttpDelete("DeleteCartItem")]
@@ -45,7 +45,7 @@ namespace WebApi.Controllers
         {
             var cartItem = _context.CartItems.Include(ci => ci.Shoe).FirstOrDefault(ci => ci.Id == id);
 
-            if (cartItem == null) return BadRequest("Нет записи в корзине с таким id");
+            if (cartItem == null) return BadRequest($"Нет записи в корзине с id: {id}");
 
             var shoe = cartItem.Shoe;
             shoe.Quantity += cartItem.Quantity;

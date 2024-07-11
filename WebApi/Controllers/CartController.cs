@@ -27,12 +27,12 @@ namespace WebApi.Controllers
             
             var existingCart = _context.Carts.FirstOrDefault(s => s.ClientId == clientId);
 
-            if (existingCart != null) return BadRequest("Такая корзина уже существует");
+            if (existingCart != null) return BadRequest($"Корзина у пользователя {_context.Clients.Find(clientId)} уже существует");
 
             _context.Carts.Add(cart);
             _context.SaveChanges();
 
-            return Ok("Корзина успешно добавлена");
+            return Ok($"Корзина успешно добавлена, ее id: {cart.Id}");
         }
 
 
