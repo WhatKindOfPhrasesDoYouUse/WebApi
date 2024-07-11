@@ -18,6 +18,7 @@ namespace WebApi.Controllers
         public ActionResult<IEnumerable<OrderItem>> GetOrderItems()
         {
             var orderItems = _context.OrderItems.Include(s => s.Order).Include(s => s.Shoe).ToList();
+            if (!orderItems.Any()) return BadRequest("В списке нет объектов заказа");
             return Ok(orderItems);
         }
 

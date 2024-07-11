@@ -17,6 +17,7 @@ namespace WebApi.Controllers
         public ActionResult<IEnumerable<Shoe>> GetShoes()
         {
             var shoes = _context.Shoes.Include(s => s.Brand).Include(s => s.Category).ToList();
+            if (!shoes.Any()) return BadRequest("В списке нет обуви");
             return Ok(shoes);
         }
 

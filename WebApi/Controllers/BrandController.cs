@@ -15,6 +15,7 @@ namespace WebApi.Controllers
         public ActionResult<IEnumerable<Brand>> GetBrands()
         {
             var brands = _context.Brands.ToList();
+            if (!brands.Any()) return BadRequest("В списке нет брендов");
             return Ok(brands);
         }
 

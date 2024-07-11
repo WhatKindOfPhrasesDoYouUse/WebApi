@@ -15,6 +15,7 @@ namespace WebApi.Controllers
         public ActionResult<IEnumerable<Category>> GetCategorys()
         {
             var categories = _context.Categories.ToList();
+            if (!categories.Any()) return BadRequest("В списке нет категорий");
             return Ok(categories);
         }
 

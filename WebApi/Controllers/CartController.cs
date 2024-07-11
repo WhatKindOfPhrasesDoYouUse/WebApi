@@ -16,6 +16,7 @@ namespace WebApi.Controllers
         public ActionResult<IEnumerable<Cart>> GetCarts()
         {
             var carts = _context.Carts.Include(s => s.Client).ToList();
+            if (!carts.Any()) return BadRequest("В списке нет корзин");
             return Ok(carts);
         }
 

@@ -16,6 +16,7 @@ namespace WebApi.Controllers
         public ActionResult<IEnumerable<Client>> GetClients() 
         {
             var clients = _context.Clients.Include(s => s.Role).ToList();
+            if (!clients.Any()) return BadRequest("В списке нет клиентов");
             return Ok(clients);
         }
 

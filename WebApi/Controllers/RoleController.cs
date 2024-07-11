@@ -15,6 +15,7 @@ namespace WebApi.Controllers
         public ActionResult<IEnumerable<Role>> GetRoles()
         {
             var roles = _context.Roles.ToList();
+            if (!roles.Any()) return BadRequest("В списке нет ролей");
             return Ok(roles);
         }
 

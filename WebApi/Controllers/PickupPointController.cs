@@ -15,6 +15,7 @@ namespace WebApi.Controllers
         public ActionResult<IEnumerable<PickupPoint>> GetPickupPoints()
         {
             var pickupPoints = _context.PickupPoints.ToList();
+            if (!pickupPoints.Any()) return BadRequest("В списке нет пунктов выдачи");
             return Ok(pickupPoints);
         }
 
