@@ -18,9 +18,6 @@ namespace WebApi.Models
         [Column("orderdate")]
         public DateOnly OrderDate { get; set; }
 
-        [Column("totalamount")]
-        public int TotalAmount { get; set; }
-
         [Column("pickuppointid")]
         public long PickupPointId { get; set; }
 

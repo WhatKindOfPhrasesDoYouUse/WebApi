@@ -20,25 +20,23 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("AddOrder")]
-        public IActionResult AddOrder(long clientId, DateOnly orderDate, int totalAmount, long pickupPointId)
+        public IActionResult AddOrder(long clientId, DateOnly orderDate, long pickupPointId)
         {
             Order order = new Order();
             order.ClientId = clientId;
             order.OrderDate = orderDate;
-            order.TotalAmount = totalAmount;
             order.PickupPointId = pickupPointId;
 
             var existingOrder = _context.Orders.FirstOrDefault(s => s.ClientId == clientId
                                                               && s.OrderDate == orderDate
-                                                              && s.TotalAmount == totalAmount
                                                               && s.PickupPointId == pickupPointId);
 
-            if (existingOrder != null) return BadRequest("Такой заказ уже существует");
+            if (existingOrder != null) return BadRequest($"Заказ с id: {order.Id} уже существует");
 
             _context.Orders.Add(order);
             _context.SaveChanges();
 
-            return Ok("Заказ успешно добавлен");
+            return Ok($"Заказ успешно с id: {order.Id} успешно добавлен");
         }
 
         [HttpDelete("DeleteOrder")]
@@ -46,7 +44,7 @@ namespace WebApi.Controllers
         {
             var order = _context.Orders.Find(id);
 
-            if (order == null) return BadRequest("Нет заказа с таким id");
+            if (order == null) return BadRequest($"Нет заказа с id: {id}");
             
 
             _context.Orders.Remove(order);
@@ -56,14 +54,13 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("UpdateOrder")]
-        public IActionResult UpdateOrder(long orderId, long? clientId = null, DateOnly? orderDate = null, int? totalAmount = null, long? pickupPointId = null)
+        public IActionResult UpdateOrder(long orderId, long? clientId = null, DateOnly? orderDate = null, long? pickupPointId = null)
         {
             var findOrder = _context.Orders.Find(orderId);
 
-            if (findOrder == null) return BadRequest("Заказ не найден");
+            if (findOrder == null) return BadRequest($"Заказ c id: {orderId} не найден");
 
             if (clientId != null) findOrder.ClientId = clientId.Value;
-            if (totalAmount != null) findOrder.TotalAmount = totalAmount.Value;
             if (pickupPointId != null) findOrder.PickupPointId = pickupPointId.Value;
             if (orderDate != null) findOrder.OrderDate = orderDate.Value;
 

@@ -30,48 +30,56 @@ namespace WebApi
                 .WithMany(c => c.Shoes)
                 .HasForeignKey(s => s.CategoryId);
 
-            modelBuilder.Entity<Brand>()
-                .HasIndex(b => b.Name)
-                .IsUnique();
-
-            modelBuilder.Entity<Category>()
-                .HasIndex(c => c.Name)
-                .IsUnique();
-
             modelBuilder.Entity<Client>()
                 .HasOne(s => s.Role)
                 .WithMany(s => s.Clients)
                 .HasForeignKey(s => s.RoleId);
-
-            modelBuilder.Entity<Role>()
-                .HasIndex(b => b.Name)
-                .IsUnique();
 
             modelBuilder.Entity<Cart>()
                 .HasOne(s => s.Client)
                 .WithMany(s => s.Carts)
                 .HasForeignKey(s => s.ClientId);
 
-            modelBuilder.Entity<Client>()
-                .HasIndex(b => b.Username)
-                .IsUnique();
-
             modelBuilder.Entity<Order>()
                  .HasOne(s => s.Client)
                  .WithMany(b => b.Orders)
                  .HasForeignKey(s => s.ClientId);
-
-            modelBuilder.Entity<Client>()
-                .HasIndex(b => b.Username)
-                .IsUnique();
 
             modelBuilder.Entity<Order>()
                  .HasOne(s => s.PickupPoint)
                  .WithMany(b => b.Orders)
                  .HasForeignKey(s => s.PickupPointId);
 
+            modelBuilder.Entity<Category>()
+                .HasIndex(c => c.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Role>()
+                .HasIndex(b => b.Name)
+                .IsUnique();
+
+            modelBuilder.Entity<Client>()
+                .HasIndex(b => b.Username)
+                .IsUnique();
+
+            modelBuilder.Entity<Client>()
+                .HasIndex(b => b.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<Client>()
+                .HasIndex(b => b.Phone)
+                .IsUnique();
+
+            modelBuilder.Entity<Brand>()
+                .HasIndex(b => b.Name)
+                .IsUnique();
+
             modelBuilder.Entity<PickupPoint>()
                 .HasIndex(b => b.City)
+                .IsUnique();
+
+            modelBuilder.Entity<PickupPoint>()
+                .HasIndex(b => b.Address)
                 .IsUnique();
         }
     }

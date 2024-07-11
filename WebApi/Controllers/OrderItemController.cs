@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WebApi.Controllers
 {
@@ -20,14 +22,19 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("AddOrderItem")]
-        public IActionResult AddOrderItem(long orderId, long shoeId, int quantity, int price, bool isPickedUp)
+        public IActionResult AddOrderItem(long orderId, long shoeId, int quantity, bool isPickedUp)
         {
-            OrderItem orderItem = new OrderItem();
-            orderItem.OrderId = orderId;
-            orderItem.ShoeId = shoeId;
-            orderItem.Quantity = quantity;
-            orderItem.Price = price;
-            orderItem.IsPickedUp = isPickedUp;
+            var shoe = _context.Shoes.Find(shoeId);
+            if (shoe == null) return BadRequest("Обувь не найдена");
+
+            OrderItem orderItem = new OrderItem
+            {
+                OrderId = orderId,
+                ShoeId = shoeId,
+                Quantity = quantity,
+                Price = shoe.Price * quantity,
+                IsPickedUp = isPickedUp
+            };
 
             var existingOrderItem = _context.OrderItems.FirstOrDefault(s => s.OrderId == orderItem.OrderId
                                                                       && s.ShoeId == orderItem.ShoeId
@@ -35,15 +42,12 @@ namespace WebApi.Controllers
                                                                       && s.Price == orderItem.Price
                                                                       && s.IsPickedUp == orderItem.IsPickedUp);
 
-            if (existingOrderItem != null)
-            {
-                return BadRequest("Такой заказ уже существует");
-            }
+            if (existingOrderItem != null) return BadRequest($"Заказ с id: {orderItem.Id} уже существует");
 
             _context.OrderItems.Add(orderItem);
             _context.SaveChanges();
 
-            return Ok("Заказ успешно добавлен");
+            return Ok($"Заказ успешно добавлен, его id: {orderItem.Id}");
         }
 
         [HttpDelete("DeleteOrderItem")]
@@ -51,10 +55,7 @@ namespace WebApi.Controllers
         {
             var orderItem = _context.OrderItems.Find(id);
 
-            if (orderItem == null)
-            {
-                return BadRequest("Нет заказа с таким id");
-            }
+            if (orderItem == null) return BadRequest($"Нет заказа с id: {id}");
 
             _context.OrderItems.Remove(orderItem);
             _context.SaveChanges();
@@ -63,31 +64,25 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("UpdateOrderItem")]
-        public IActionResult UpdateOrderItem(long orderItemId, long? orderId = null, long? shoeId = null, int? qunatity = null, int? price = null,
-            bool? isPickedUp = null)
+        public IActionResult UpdateOrderItem(long orderItemId, long? orderId = null, long? shoeId = null, int? quantity = null, bool? isPickedUp = null)
         {
-            var findOrderItem = _context.OrderItems.Find(orderId);
+            var findOrderItem = _context.OrderItems.Find(orderItemId);
 
-            if (findOrderItem == null)
-            {
-                return BadRequest("Заказ не найден");
-            }
+            if (findOrderItem == null) return BadRequest($"Заказ с id: {orderItemId} не найден");
 
-            if (orderId != null)
+            if (orderId != null) findOrderItem.OrderId = orderId.Value;
+            
+            if (shoeId != null) findOrderItem.ShoeId = shoeId.Value;
+            
+            if (quantity != null) findOrderItem.Quantity = quantity.Value;
+            
+            if (shoeId != null || quantity != null)
             {
-                findOrderItem.OrderId = orderId.Value;
-            }
-            if (price != null)
-            {
-                findOrderItem.Price = price.Value;
-            }
-            if (shoeId != null)
-            {
-                findOrderItem.ShoeId = shoeId.Value;
-            }
-            if (qunatity != null)
-            {
-                findOrderItem.Quantity = qunatity.Value;
+                var shoe = _context.Shoes.Find(findOrderItem.ShoeId);
+                if (shoe != null)
+                {
+                    findOrderItem.Price = shoe.Price * findOrderItem.Quantity;
+                }
             }
             if (isPickedUp != null)
             {
@@ -97,7 +92,7 @@ namespace WebApi.Controllers
             _context.OrderItems.Update(findOrderItem);
             _context.SaveChanges();
 
-            return Ok($"Заказ с id: {orderId} успешно обновлен");
+            return Ok($"Заказ с id: {orderItemId} успешно обновлен");
         }
     }
 }

@@ -27,12 +27,12 @@ namespace WebApi.Controllers
 
             var existingPickup = _context.PickupPoints.FirstOrDefault(b => b.City == city && b.Address == address);
 
-            if (existingPickup != null) return BadRequest("Такой пункт выдачи уже существует");
+            if (existingPickup != null) return BadRequest($"Пункт выдачи в горове: {city} по адресу {address} уже существует");
 
             _context.PickupPoints.Add(pickup);
             _context.SaveChanges();
 
-            return Ok("Пункт выдачи успешно добавлен");
+            return Ok($"Пункт выдачи успешно создан, его id: {pickup.Id}");
         }
 
         [HttpDelete("DeletePickupPoint")]
@@ -42,13 +42,13 @@ namespace WebApi.Controllers
 
             if (pickup == null)
             {
-                return BadRequest("Нет пункта выдачи с таким id");
+                return BadRequest($"Нет пункта выдачи с id: {id}");
             }
 
             _context.PickupPoints.Remove(pickup);
             _context.SaveChanges();
 
-            return Ok($"Пункт выдачи c id: {id} успешно создан");
+            return Ok($"Пункт выдачи c id: {id} успешно удален");
         }
 
         [HttpPut("UpdateDeletePickupPoint")]
@@ -56,7 +56,7 @@ namespace WebApi.Controllers
         {
             var findPickup = _context.PickupPoints.Find(pickupId);
 
-            if (findPickup == null) return NotFound("Пункт выдачи не найден");
+            if (findPickup == null) return NotFound($"Пункт выдачи c id: {pickupId} не найден");
             if (city != null) findPickup.City = city;
             if (address != null) findPickup.Address = address;
             
@@ -64,7 +64,7 @@ namespace WebApi.Controllers
             _context.PickupPoints.Update(findPickup);
             _context.SaveChanges();
 
-            return Ok($"Пункт выдачи с id: {pickupId} обновлен ");
+            return Ok($"Пункт выдачи с id: {pickupId} успешно обновлен");
         }
     }
 }

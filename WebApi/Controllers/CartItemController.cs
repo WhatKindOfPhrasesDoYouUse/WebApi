@@ -53,7 +53,7 @@ namespace WebApi.Controllers
             _context.CartItems.Remove(cartItem);
             _context.SaveChanges();
 
-            return Ok($"Элемент корзины успешно удален. Возвращено {cartItem.Quantity} обуви.");
+            return Ok($"Элемент корзины успешно удален. Возвращено {cartItem.Quantity} пары обуви.");
         }
 
         [HttpPut("UpdateCartItem")]
