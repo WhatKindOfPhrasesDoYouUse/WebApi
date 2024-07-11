@@ -40,6 +40,16 @@ namespace WebApi
                 .WithMany(s => s.Carts)
                 .HasForeignKey(s => s.ClientId);
 
+            modelBuilder.Entity<CartItem>()
+                .HasOne(s => s.Shoe)
+                .WithMany(s => s.CartItems)
+                .HasForeignKey(s => s.ShoeId);
+
+            modelBuilder.Entity<CartItem>()
+                .HasOne(s => s.Cart)
+                .WithMany(s => s.CartItems)
+                .HasForeignKey(s => s.CartId);
+
             modelBuilder.Entity<Order>()
                  .HasOne(s => s.Client)
                  .WithMany(b => b.Orders)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -41,6 +42,16 @@ namespace WebApi.Controllers
             var brand = _context.Brands.Find(id);
 
             if (brand == null) return BadRequest($"Нет бренда c id: {id}");
+
+            try
+            {
+                _context.Brands.Remove(brand);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex) 
+            {
+                return BadRequest($"Невозможно удалить бренд с id: {id}, так как она связана с другими объектами");
+            }
 
             _context.Brands.Remove(brand);
             _context.SaveChanges();

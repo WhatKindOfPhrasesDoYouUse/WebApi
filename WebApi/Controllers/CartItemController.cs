@@ -28,8 +28,6 @@ namespace WebApi.Controllers
             cartItem.ShoeId = shoeId;
             cartItem.Quantity = quantity;
 
-            
-
             var shoe = _context.Shoes.Find(shoeId);
 
             if (shoe.Quantity < quantity) return BadRequest("Обуви не достаточно");
