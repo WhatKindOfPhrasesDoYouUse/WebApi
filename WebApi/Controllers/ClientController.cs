@@ -39,12 +39,12 @@ namespace WebApi.Controllers
                                                                 && s.Email == client.Email
                                                                 && s.Phone == client.Phone);
 
-            if (existingClient != null) return BadRequest("Такой клиент уже существует");
+            if (existingClient != null) return BadRequest($"Клиент с иминем пользователя {username} уже существует");
 
             _context.Clients.Add(client);
             _context.SaveChanges();
 
-            return Ok("Клиент успешно добавлен");
+            return Ok($"Клиент успешно добавлен, его id: {client.Id}");
         }
 
         [HttpDelete("DeleteClient")]
@@ -52,7 +52,7 @@ namespace WebApi.Controllers
         {
             var client = _context.Clients.Find(id);
 
-            if (client == null) return BadRequest($"Нет клиента с таким id: {id}");
+            if (client == null) return BadRequest($"Нет клиента с id: {id}");
 
             _context.Clients.Remove(client);
             _context.SaveChanges();
@@ -67,36 +67,15 @@ namespace WebApi.Controllers
         {
             var findClient = _context.Clients.Find(clientId);
 
-            if (findClient == null) return BadRequest("Клиент не найден");
+            if (findClient == null) return BadRequest("Клиент с id: {clientId} не найден");
 
-            if (firstName != null)
-            {
-                findClient.FirstName = firstName;
-            }
-            if (lastName != null)
-            {
-                findClient.LastName = lastName;
-            }
-            if (username != null)
-            {
-                findClient.Username = username;
-            }
-            if (password != null) 
-            {
-                findClient.Password = password;
-            }
-            if (email != null) 
-            {
-                findClient.Email = email;
-            }
-            if (phone != null)
-            {
-                findClient.Phone = phone;
-            }
-            if (roleId != null)
-            {
-                findClient.RoleId = roleId.Value;
-            }
+            if (firstName != null) findClient.FirstName = firstName;
+            if (lastName != null) findClient.LastName = lastName;
+            if (username != null) findClient.Username = username;
+            if (password != null) findClient.Password = password;
+            if (email != null) findClient.Email = email;
+            if (phone != null) findClient.Phone = phone;
+            if (roleId != null) findClient.RoleId = roleId.Value;
 
             _context.Clients.Update(findClient);
             _context.SaveChanges();
