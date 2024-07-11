@@ -53,9 +53,6 @@ namespace WebApi.Controllers
                 return BadRequest($"Невозможно удалить бренд с id: {id}, так как она связана с другими объектами");
             }
 
-            _context.Brands.Remove(brand);
-            _context.SaveChanges();
-
             return Ok($"Бренд c id: {id} успешно удален");
         }
 

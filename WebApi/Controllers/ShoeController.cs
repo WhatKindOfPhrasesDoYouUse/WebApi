@@ -82,6 +82,8 @@ namespace WebApi.Controllers
         public IActionResult UpdateShoe(long shoeId, string? name = null, int? price = null, int? size = null, string color =   null, int? quantity = null, 
             long? brandId = null, long? categoryId = null)
         {
+            bool[] flags = new bool[2] { false, false };
+            
             var findShoe = _context.Shoes.Find(shoeId);
 
             if (findShoe == null) return BadRequest($"Обувь c id: {shoeId} не найдена");
@@ -96,13 +98,13 @@ namespace WebApi.Controllers
                 var brandExists = _context.Brands.Any(b => b.Id == brandId);
                 if (!brandExists) return BadRequest($"Нет бренда с id: {brandId}");
                 else findShoe.BrandId = brandId.Value;
+                
             }
             if (categoryId != null)
             {
                 var categoryExists = _context.Categories.Any(c => c.Id == categoryId);
                 if (!categoryExists) return BadRequest($"Нет категории с id: {categoryId}");
                 else findShoe.CategoryId = categoryId.Value;
-
             }
 
             _context.Shoes.Update(findShoe);

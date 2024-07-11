@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -42,8 +43,15 @@ namespace WebApi.Controllers
 
             if (role == null) return BadRequest($"Нет роли с id: {id}");
 
-            _context.Roles.Remove(role);
-            _context.SaveChanges();
+            try
+            {
+                _context.Roles.Remove(role);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest($"Невозможно удалить роль с id: {id}, так как она связана с другими объектами");
+            }
 
             return Ok($"Роль с id: {id} успешно удалена");
         }
