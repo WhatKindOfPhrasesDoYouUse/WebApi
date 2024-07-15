@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -46,8 +47,15 @@ namespace WebApi.Controllers
                 return BadRequest($"Нет пункта выдачи с id: {id}");
             }
 
-            _context.PickupPoints.Remove(pickup);
-            _context.SaveChanges();
+            try
+            {
+                _context.PickupPoints.Remove(pickup);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest($"Невозможно удалить пункт выдачи с id: {id}, так как она связана с другими объектами");
+            }
 
             return Ok($"Пункт выдачи c id: {id} успешно удален");
         }

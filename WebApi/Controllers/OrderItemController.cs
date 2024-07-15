@@ -43,7 +43,7 @@ namespace WebApi.Controllers
                                                                       && s.Price == orderItem.Price
                                                                       && s.IsPickedUp == orderItem.IsPickedUp);
 
-            if (existingOrderItem != null) return BadRequest($"Заказ с id: {orderItem.Id} уже существует");
+            if (existingOrderItem != null) return BadRequest($"Заказ уже существует");
 
             _context.OrderItems.Add(orderItem);
             _context.SaveChanges();
@@ -57,6 +57,8 @@ namespace WebApi.Controllers
             var orderItem = _context.OrderItems.Find(id);
 
             if (orderItem == null) return BadRequest($"Нет заказа с id: {id}");
+
+            if (orderItem.IsPickedUp) return BadRequest($"Не возможно удалить забранный товар");
 
             _context.OrderItems.Remove(orderItem);
             _context.SaveChanges();

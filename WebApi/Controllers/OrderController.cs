@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -46,10 +47,16 @@ namespace WebApi.Controllers
             var order = _context.Orders.Find(id);
 
             if (order == null) return BadRequest($"Нет заказа с id: {id}");
-            
 
-            _context.Orders.Remove(order);
-            _context.SaveChanges();
+            try
+            {
+                _context.Orders.Remove(order);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest($"Невозможно удалить заказ с id: {id}, так как она связана с другими объектами");
+            }
 
             return Ok($"Заказ c id: {id} успешно удален");
         }

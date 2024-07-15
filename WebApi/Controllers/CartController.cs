@@ -28,7 +28,9 @@ namespace WebApi.Controllers
             
             var existingCart = _context.Carts.FirstOrDefault(s => s.ClientId == clientId);
 
-            if (existingCart != null) return BadRequest($"Корзина у пользователя {_context.Clients.Find(clientId)} уже существует");
+            var client = _context.Clients.Find(clientId);
+
+            if (existingCart != null) return BadRequest($"Корзина у пользователя {client.Username} уже существует");
 
             _context.Carts.Add(cart);
             _context.SaveChanges();
@@ -44,8 +46,15 @@ namespace WebApi.Controllers
 
             if (cart == null) return BadRequest("Нет корзины с таким id");
 
-            _context.Carts.Remove(cart);
-            _context.SaveChanges();
+            try
+            {
+                _context.Carts.Remove(cart);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex) 
+            {
+                return BadRequest($"Невозможно удалить корзину с id: {id}, так как она связана с другими объектами");
+            }
 
             return Ok($"Корзина с id: {id} успешно удалена");
         }

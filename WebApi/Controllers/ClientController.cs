@@ -55,8 +55,16 @@ namespace WebApi.Controllers
 
             if (client == null) return BadRequest($"Нет клиента с id: {id}");
 
-            _context.Clients.Remove(client);
-            _context.SaveChanges();
+            try
+            {
+                _context.Clients.Remove(client);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return BadRequest($"Невозможно удалить клиента с id: {id}, так как она связана с другими объектами");
+            }
+
 
             return Ok($"Клиент с id: {id} успешно удален");
         }
@@ -68,7 +76,7 @@ namespace WebApi.Controllers
         {
             var findClient = _context.Clients.Find(clientId);
 
-            if (findClient == null) return BadRequest("Клиент с id: {clientId} не найден");
+            if (findClient == null) return BadRequest($"Клиент с id: {clientId} не найден");
 
             if (firstName != null) findClient.FirstName = firstName;
             if (lastName != null) findClient.LastName = lastName;

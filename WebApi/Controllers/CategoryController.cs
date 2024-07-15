@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -11,8 +12,8 @@ namespace WebApi.Controllers
 
         public CategoryController(ApplicationDbContext context) => _context = context;
 
-        [HttpGet("GetCategory")]
-        public ActionResult<IEnumerable<Category>> GetCategorys()
+        [HttpGet("GetCategories")]
+        public ActionResult<IEnumerable<Category>> GetCategories()
         {
             var categories = _context.Categories.ToList();
             if (!categories.Any()) return BadRequest("В списке нет категорий");
@@ -42,8 +43,15 @@ namespace WebApi.Controllers
 
             if (category == null) return BadRequest($"Нет категории c id: {id}");
 
-            _context.Categories.Remove(category);
-            _context.SaveChanges();
+            try
+            {
+                _context.Categories.Remove(category);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return BadRequest($"Невозможно удалить категорию с id: {id}, так как она связана с другими объектами");
+            }
 
             return Ok($"Категория c id: {id} успешно удалена");
         }
