@@ -15,8 +15,36 @@ namespace WebApi.Controllers
         [HttpGet("GetCartItems")]
         public ActionResult<IEnumerable<CartItem>> GetCartItems()
         {
-            var cartItems = _context.CartItems.Include(s => s.Cart).Include(s => s.Shoe).ToList();
+            var cartItems = _context.CartItems
+                .Include(s => s.Cart)
+                .Include(s => s.Shoe)
+                .Select(ci => new
+                {
+                    ci.Id,
+                    ci.CartId,
+                    ci.ShoeId,
+                    ci.Quantity,
+                    Cart = new
+                    {
+                        ci.Cart.Id,
+                        ci.Cart.ClientId
+                    },
+                    Shoe = new
+                    {
+                        ci.Shoe.Id,
+                        ci.Shoe.Name,
+                        ci.Shoe.Price,
+                        ci.Shoe.Size,
+                        ci.Shoe.Color,
+                        ci.Shoe.Quantity,
+                        ci.Shoe.BrandId,
+                        ci.Shoe.CategoryId
+                    }
+                })
+                .ToList();
+
             if (!cartItems.Any()) return BadRequest("В списке нет объектов корзины");
+
             return Ok(cartItems);
         }
 
