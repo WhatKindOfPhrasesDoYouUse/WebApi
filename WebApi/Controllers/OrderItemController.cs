@@ -60,7 +60,7 @@ namespace WebApi.Controllers
             _context.OrderItems.Add(orderItem);
             _context.SaveChanges();
 
-            return Ok($"Заказ успешно добавлен, его id: {orderItem.Id}");
+            return Ok($"Обувь успешно добавлена в заказ, ее id: {shoeId} в количестве {quantity}");
         }
 
         [HttpDelete("DeleteOrderItem")]
@@ -75,7 +75,7 @@ namespace WebApi.Controllers
             _context.OrderItems.Remove(orderItem);
             _context.SaveChanges();
 
-            return Ok($"Заказ c id: {id} успешно удален");
+            return Ok($"Объект заказа c id: {id} успешно удален");
         }
 
         [HttpPut("UpdateOrderItem")]
@@ -107,7 +107,7 @@ namespace WebApi.Controllers
             _context.OrderItems.Update(findOrderItem);
             _context.SaveChanges();
 
-            return Ok($"Заказ с id: {orderItemId} успешно обновлен");
+            return Ok($"Объект заказа с id: {orderItemId} успешно обновлен");
         }
     }
 }
