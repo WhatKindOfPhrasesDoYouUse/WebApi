@@ -16,8 +16,14 @@ namespace WebApi.Controllers
         [HttpGet("GetOrders")]
         public ActionResult<IEnumerable<Order>> GetOrders()
         {
-            var orders = _context.Orders.Include(s => s.Client).Include(s => s.PickupPoint).ToList();
+            var orders = _context.Orders
+                .Include(s => s.Client)
+                .ThenInclude(c => c.Role)
+                .Include(s => s.PickupPoint)
+                .ToList();
+
             if (!orders.Any()) return BadRequest("В списке нет заказов");
+
             return Ok(orders);
         }
 
