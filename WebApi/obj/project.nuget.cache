@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PD02lgHK95Ynz1RWrE5fzrxJH6w+Gm5TmaceZzCWFVe62tKduUEpVd9FxHM5PBKyjjZ3jApDAPza3WHhBjV/6Q==",
+  "dgSpecHash": "nixurTGbaxNFIvbNsqCB7XGc56Rgn5y36GNz+favGTAZ0m7azeuxotDDnVIlHdcDuoAER1lOscAwcNYyZRqzcg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mazaf\\source\\repos\\WebApi\\WebApi\\WebApi.csproj",
+  "projectFilePath": "C:\\Users\\mazaf\\RiderProjects\\WebApi\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mazaf\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.4\\microsoft.entityframeworkcore.8.0.4.nupkg.sha512",
     "C:\\Users\\mazaf\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.4\\microsoft.entityframeworkcore.abstractions.8.0.4.nupkg.sha512",

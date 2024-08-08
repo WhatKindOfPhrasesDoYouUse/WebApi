@@ -1151,19 +1151,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\mazaf\\.nuget\\packages\\": {}
+    "C:\\Users\\mazaf\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mazaf\\source\\repos\\WebApi\\WebApi\\WebApi.csproj",
+      "projectUniqueName": "C:\\Users\\mazaf\\RiderProjects\\WebApi\\WebApi\\WebApi.csproj",
       "projectName": "WebApi",
-      "projectPath": "C:\\Users\\mazaf\\source\\repos\\WebApi\\WebApi\\WebApi.csproj",
+      "projectPath": "C:\\Users\\mazaf\\RiderProjects\\WebApi\\WebApi\\WebApi.csproj",
       "packagesPath": "C:\\Users\\mazaf\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mazaf\\source\\repos\\WebApi\\WebApi\\obj\\",
+      "outputPath": "C:\\Users\\mazaf\\RiderProjects\\WebApi\\WebApi\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\mazaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1183,11 +1188,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
