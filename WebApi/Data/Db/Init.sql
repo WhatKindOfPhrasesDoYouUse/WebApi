@@ -126,14 +126,3 @@ select * from PickupPoint;
 select * from CartItem;
 select * from "Order";
 select * from OrderItem;
-
---drop table shoe cascade;
---drop table brand cascade;
---drop table category cascade;
---drop table role cascade;
---drop table client cascade;
---drop table cart cascade;
---drop table CartItem cascade;
---drop table "Order" cascade;
---drop table OrderItem cascade;
---drop table PickupPoint cascade;
