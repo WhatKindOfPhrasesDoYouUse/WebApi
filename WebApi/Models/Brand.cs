@@ -17,6 +17,5 @@ namespace WebApi.Models
 
         [JsonIgnore]
         public ICollection<Shoe> Shoes { get; set; }
-
     }
 }
