@@ -70,6 +70,5 @@ namespace WebApi.Controllers
 
             return Ok($"Категория с id: {categoryId} успешно обновлена");
         }
-
     }
 }
